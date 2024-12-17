@@ -6,15 +6,11 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
+  final ThemeMode _themeMode = ThemeMode.system;
 
-class _MainAppState extends State<MainApp> {
-  ThemeMode _themeMode = ThemeMode.system;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,9 +21,5 @@ class _MainAppState extends State<MainApp> {
       themeMode: _themeMode,
       home: const SignUp()
     );
-  }
-
-  void changeThemeMode(mode) {
-    setState(() => _themeMode = mode);
   }
 }

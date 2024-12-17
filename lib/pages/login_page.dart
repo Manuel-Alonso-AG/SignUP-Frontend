@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/theme/input_theme.dart';
+import 'package:frontend/utils/colors_constants.dart';
 import 'package:frontend/utils/constants.dart';
+import 'package:frontend/utils/radius_constants.dart';
+import 'package:frontend/utils/spacing_constants.dart';
+import 'package:frontend/utils/text_constants.dart';
+import 'package:frontend/widgets/buttom_widget.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onTap;
@@ -14,23 +19,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: GradientBackground().normal(context)
-      ),
+      decoration: BoxDecoration(gradient: GradientBackground().normal(context)),
       child: Column(
         children: [
-          const Expanded(
+          Expanded(
             flex: 1,
-            child: Icon(Icons.login),
+            // TODO: Se agrega el logo o nombre de la aplicaion
+            child: Center(child: Text('Bienvenido', style: TextStyleConstants.displayMedium(context, color: Colors.white, fontWeight: FontWeight.bold)))
           ),
           Expanded(
             flex: 2,
             child: Container(
               alignment: Alignment.bottomCenter,
-              padding: PaddAll().large(),
+              padding: paddAllLarge,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: rCircular),
-                color: Theme.of(context).colorScheme.background,
+                borderRadius: borderTopRadiusLarge,
+                color: ColorConstants.background(context),
                 boxShadow: const [
                   BoxShadow(
                     offset: Offset(1, 0),
@@ -42,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: Column(
                 children: [
-                  Text('Inicia Sesión', style: Theme.of(context).textTheme.titleLarge),
+                  Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
                   const SizedBox(height: padd),
                   TextFormField(
                     decoration: InputTheme(label: 'Usuario',).normal(context)
@@ -52,9 +56,11 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputTheme(label: 'Contraseña',).normal(context)
                   ),
                   const SizedBox(height: padd),
-                  FilledButton(
-                    onPressed: (){}, 
-                    child: const Text('Entrar')
+                  ButtomCustom(
+                    onPressed: () {},
+                    typeButton: TypeButton.expanded,
+                    background: ColorConstants.primary(context),
+                    child: const Text('Entrar', style: TextStyle(color: Colors.white),),
                   ),
                   const Spacer(),
                   Row(

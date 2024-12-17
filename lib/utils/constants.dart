@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// DEPRECATED: Se cambiara este archivo por los archivos "colors_constants.drat", "radius_constants", "spacing_constants"
+
 const double padd = 20.0;
 const double spacer = 50.0;
 const double div = 10.0;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/theme/input_theme.dart';
 import 'package:frontend/utils/constants.dart';
+import 'package:frontend/utils/spacing_constants.dart';
+import 'package:frontend/utils/text_constants.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -16,12 +18,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: PaddAll().large(),
+        padding: paddAllLarge,
         child: SingleChildScrollView(
           child: Form(
             child: Column(
               children: [
-                Text('Registrate', style: Theme.of(context).textTheme.titleLarge),
+                Text('Registrate', style: TextStyleConstants.titleLarge(context)),
                 const SizedBox(height: padd),
                 TextFormField(
                   decoration: InputTheme(label: 'Usuario',).normal(context)

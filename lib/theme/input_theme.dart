@@ -16,10 +16,7 @@ class InputTheme {
       contentPadding: paddAll,
       filled: true,
       fillColor: Theme.of(context).colorScheme.surface,
-      border: const OutlineInputBorder(
-        borderRadius: borderCircular,
-        borderSide: BorderSide.none
-      )
+      border: const OutlineInputBorder(borderRadius: borderCircular,borderSide: BorderSide.none)
     );
   }
 }

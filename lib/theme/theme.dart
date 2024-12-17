@@ -1,56 +1,16 @@
 import 'package:flutter/material.dart';
 
-var isDarkMode = false;
-
 var textTheme = const TextTheme(
-  titleLarge: TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-    fontWeight: FontWeight.bold
-  ),
-  titleMedium: TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-    fontWeight: FontWeight.bold
-  ),
-  titleSmall: TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-    fontWeight: FontWeight.bold
-  ),
-  bodyLarge: TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
-  bodyMedium: TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
-  bodySmall: TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
-  labelLarge: TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-  ),
-  labelMedium: TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-  ),
-  labelSmall:  TextStyle(
-    fontFamily: 'BAHNSCHRIFT',
-  ),
-  displayLarge:  TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
-  displayMedium:  TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
-  displaySmall:  TextStyle(
-    fontFamily: 'BAHNSCHRIFT'
-  ),
+  titleLarge: TextStyle(fontWeight: FontWeight.bold),
+  titleMedium: TextStyle(fontWeight: FontWeight.bold),
+  titleSmall: TextStyle(fontWeight: FontWeight.bold),
 );
 
-InputDecorationTheme inpDec = const InputDecorationTheme(
-  outlineBorder: BorderSide.none
-);
-
+InputDecorationTheme inpDec = const InputDecorationTheme(outlineBorder: BorderSide.none);
 
 ThemeData lightTheme = ThemeData(
   inputDecorationTheme: inpDec,
+  fontFamily: 'BAHNSCHRIFT',
   textTheme: textTheme,
   brightness: Brightness.light,
   useMaterial3: true,
