@@ -18,7 +18,7 @@ class InputTheme {
       fillColor: Theme.of(context).colorScheme.surface,
       border: const OutlineInputBorder(
         borderRadius: borderCircular,
-        borderSide: BorderSide.none,
+        borderSide: BorderSide.none
       )
     );
   }

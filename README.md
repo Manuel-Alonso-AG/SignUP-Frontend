@@ -1,5 +1,8 @@
 # SignUp-Frontend
-Es una UI de un sistema de SignUp Con un diseño simple. Contiene formularios y validaciones de campos.
+Es una UI de un sistema de SignUp Con un diseño simple para Mobile. Contiene formularios y validaciones de campos.
+
+>[!IMPORTANT]
+>¡Todavia esta en desarrollo! NO esta terminado
 
 >[!NOTE]
 >Tecnologías utilizadas  

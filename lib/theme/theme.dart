@@ -55,15 +55,15 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   useMaterial3: true,
   colorScheme: const ColorScheme.light().copyWith(
-    primary: const Color(0xFFeb5e28),
-    background: const Color(0xFFf5f3f4),
+    primary: const Color(0xFF0FB2BA),
+    inversePrimary: const Color(0xFF53916F),
+    secondary: const Color(0xFF015A5E),
+    onSecondary: const Color(0xFF015E2B),
+    background: const Color(0xFFF3ECEF),
     surface: Colors.white,
     error: const Color(0xFFe5383b),
   )
 );
-
-// 015E2B
-// 0FBA5C
 
 ThemeData darkTheme = ThemeData(
   inputDecorationTheme: inpDec,
@@ -77,6 +77,6 @@ ThemeData darkTheme = ThemeData(
     onSecondary: const Color(0xFF015E2B),
     background: const Color(0xFF0D2021),
     surface: const Color(0xFF142F30),
-    error: Color.fromARGB(255, 251, 36, 79),
+    error: const Color(0xFFFB244F),
   )  
 );

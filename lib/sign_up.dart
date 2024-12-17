@@ -18,6 +18,8 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return toggleSing? RegisterPage(onTap: togglePages) : LoginPage(onTap: togglePages);
+    return Scaffold(
+      body: toggleSing? RegisterPage(onTap: togglePages) : LoginPage(onTap: togglePages)
+    );
   }
 }

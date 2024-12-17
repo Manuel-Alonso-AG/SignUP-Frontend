@@ -30,11 +30,11 @@ class PaddHorizontal {
 
 class GradientBackground {
   LinearGradient normal(BuildContext context) => LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.secondary
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight
-                );
+    colors: [
+      Theme.of(context).colorScheme.primary,
+      Theme.of(context).colorScheme.inversePrimary
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.centerRight
+  );
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/sign_up.dart';
+import 'package:frontend/theme/theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -18,18 +20,14 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SignUP App',
+      theme: lightTheme,
+      darkTheme: darkTheme,
       themeMode: _themeMode,
-      home: const Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: const SignUp()
     );
   }
 
   void changeThemeMode(mode) {
-    setState(() {
-      _themeMode = mode;
-    });
+    setState(() => _themeMode = mode);
   }
 }
