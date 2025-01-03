@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/constants.dart';
+import 'package:frontend/utils/radius_constants.dart';
+import 'package:frontend/utils/spacing_constants.dart';
 
-class InputTheme {
-  final String? label;
-  final Widget? suffixIcon;
-  final Icon? icon;
-
-  InputTheme({this.suffixIcon, this.icon, this.label});
-
-  InputDecoration normal(BuildContext context){
-    return InputDecoration(
-      labelText: label,
-      suffixIcon: suffixIcon,
-      icon: icon,
-      contentPadding: paddAll,
-      filled: true,
-      fillColor: Theme.of(context).colorScheme.surface,
-      border: const OutlineInputBorder(borderRadius: borderCircular,borderSide: BorderSide.none)
-    );
-  }
+class InputCustom {
+  static InputDecoration normal(BuildContext context, String? label) => InputDecoration(
+    labelText: label,
+    contentPadding: paddAllMedium,
+    filled: true,
+    fillColor: Theme.of(context).colorScheme.surface,
+    border: const OutlineInputBorder(borderRadius: borderRadiusMedium,borderSide: BorderSide.none)
+  );
+  static InputDecoration password(BuildContext context, String? label, {required VoidCallback onToggle, required bool isToggle}) => InputDecoration(
+    labelText: label,
+    contentPadding: paddAllMedium,
+    suffixIcon: IconButton(
+      icon: isToggle? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+      onPressed: onToggle,
+    ),
+    filled: true,
+    fillColor: Theme.of(context).colorScheme.surface,
+    border: const OutlineInputBorder(borderRadius: borderRadiusMedium,borderSide: BorderSide.none)
+  );
 }

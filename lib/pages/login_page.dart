@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/theme/input_theme.dart';
 import 'package:frontend/utils/colors_constants.dart';
-import 'package:frontend/utils/constants.dart';
 import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
 import 'package:frontend/utils/text_constants.dart';
+import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,10 +16,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController nameController= TextEditingController();
+  final TextEditingController passController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey();
+  bool onHidenPassword = true;
+
+  void hidenPassword() => setState(() => onHidenPassword = !onHidenPassword);
+
+  void logOn() {
+    if (!formKey.currentState!.validate()) return;
+    print("object");
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradientBackground().normal(context)),
+      decoration: BoxDecoration(gradient: GradientCustom.defaultGradient()),
       child: Column(
         children: [
           Expanded(
@@ -44,37 +57,45 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 ]
               ),
-              child: Column(
-                children: [
-                  Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
-                  const SizedBox(height: padd),
-                  TextFormField(
-                    decoration: InputTheme(label: 'Usuario',).normal(context)
-                  ),
-                  const SizedBox(height: padd),
-                  TextFormField(
-                    decoration: InputTheme(label: 'Contraseña',).normal(context)
-                  ),
-                  const SizedBox(height: padd),
-                  ButtomCustom(
-                    onPressed: () {},
-                    typeButton: TypeButton.expanded,
-                    background: ColorConstants.primary(context),
-                    child: const Text('Entrar', style: TextStyle(color: Colors.white),),
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('No tienes una cuenta? '),
-                      InkWell(
-                        onTap: widget.onTap,
-                        child: const Text('Registrate!', style: TextStyle(fontWeight: FontWeight.bold),),
-                      )
-                    ],
-                  ),
-                  const Spacer()
-                ],
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
+                    const SizedBox(height: paddMedium),
+                    TextFormField(
+                      decoration: InputCustom.normal(context, 'Usuario'),
+                      controller: nameController,
+                      validator: (value) => validatorName(value)
+                    ),
+                    const SizedBox(height: paddMedium),
+                    TextFormField(
+                      obscureText: onHidenPassword,
+                      decoration: InputCustom.password(context, 'Contraseña', onToggle: hidenPassword, isToggle: onHidenPassword),
+                      controller: passController,
+                      validator: (value) => validatorPass(value)
+                    ),
+                    const SizedBox(height: paddMedium),
+                    ButtomCustom(
+                      onPressed: logOn,
+                      typeButton: TypeButton.expanded,
+                      background: ColorConstants.primary(context),
+                      child: const Text('Entrar', style: TextStyle(color: Colors.white),),
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('No tienes una cuenta? '),
+                        InkWell(
+                          onTap: widget.onTap,
+                          child: const Text('Registrate!', style: TextStyle(fontWeight: FontWeight.bold),),
+                        )
+                      ],
+                    ),
+                    const Spacer()
+                  ],
+                ),
               ),
             ),
           ),
