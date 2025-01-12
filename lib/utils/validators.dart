@@ -32,22 +32,12 @@ String? validatorConfirmPass(String? value, String? passValue) {
 }
 
 String? validatorPhone(PhoneNumber? value) {
-  if (value!.isValidNumber()) {
-    return 'Llene este campo';
-  }
   return null;
 }
 
 String? validatorName(String? value) {
   if (value!.isEmpty) {
     return 'Llene este campo';
-  }
-  return null;
-}
-
-String? validatorDropeMenu(String? value) {
-  if (value == null) {
-    return 'Seleccione una opcion';
   }
   return null;
 }

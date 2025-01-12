@@ -24,81 +24,97 @@ class _LoginPageState extends State<LoginPage> {
 
   void hidenPassword() => setState(() => onHidenPassword = !onHidenPassword);
 
-  void logOn() {
+  void submitForm() {
     if (!formKey.currentState!.validate()) return;
-    print("object");
+    
+    /* TODO: Implementar la lógica para interactuar con el backend */
+
   }
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(gradient: GradientCustom.defaultGradient()),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            // TODO: Se agrega el logo o nombre de la aplicaion
-            child: Center(child: Text('Bienvenido', style: TextStyleConstants.displayMedium(context, color: Colors.white, fontWeight: FontWeight.bold)))
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              padding: paddAllLarge,
-              decoration: BoxDecoration(
-                borderRadius: borderTopRadiusLarge,
-                color: ColorConstants.background(context),
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(1, 0),
-                    blurRadius: 8,
-                    spreadRadius: 7,
-                    color: Colors.black26
-                  )
-                ]
-              ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
-                    const SizedBox(height: paddMedium),
-                    TextFormField(
-                      decoration: InputCustom.normal(context, 'Usuario'),
-                      controller: nameController,
-                      validator: (value) => validatorName(value)
-                    ),
-                    const SizedBox(height: paddMedium),
-                    TextFormField(
-                      obscureText: onHidenPassword,
-                      decoration: InputCustom.password(context, 'Contraseña', onToggle: hidenPassword, isToggle: onHidenPassword),
-                      controller: passController,
-                      validator: (value) => validatorPass(value)
-                    ),
-                    const SizedBox(height: paddMedium),
-                    ButtomCustom(
-                      onPressed: logOn,
-                      typeButton: TypeButton.expanded,
-                      background: ColorConstants.primary(context),
-                      child: const Text('Entrar', style: TextStyle(color: Colors.white),),
-                    ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('No tienes una cuenta? '),
-                        InkWell(
-                          onTap: widget.onTap,
-                          child: const Text('Registrate!', style: TextStyle(fontWeight: FontWeight.bold),),
-                        )
-                      ],
-                    ),
-                    const Spacer()
-                  ],
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(gradient: GradientCustom.defaultGradient()),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              // TODO: Se agrega el logo o nombre de la aplicaion
+              child: Center(child: Text('Bienvenido', style: TextStyleConstants.displayMedium(context, color: Colors.white, fontWeight: FontWeight.bold)))
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: paddAllLarge,
+                decoration: BoxDecoration(
+                  borderRadius: borderTopRadiusLarge,
+                  color: ColorConstants.background(context),
+                  boxShadow: const [
+                    BoxShadow(
+                      offset: Offset(1, 0),
+                      blurRadius: 8,
+                      spreadRadius: 7,
+                      color: Colors.black26
+                    )
+                  ]
                 ),
+                child: formulary(context),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Form formulary(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
+          const SizedBox(height: paddMedium),
+          TextFormField(
+            decoration: InputCustom.normal(context, 'Usuario'),
+            controller: nameController,
+            validator: (value) => validatorName(value)
           ),
+          const SizedBox(height: paddMedium),
+          TextFormField(
+            obscureText: onHidenPassword,
+            decoration: InputCustom.password(context, 'Contraseña', onToggle: hidenPassword, isToggle: onHidenPassword),
+            controller: passController,
+            validator: (value) => validatorPass(value)
+          ),
+          const SizedBox(height: paddMedium),
+          CheckboxListTile(
+            value: false, 
+            checkboxShape: const RoundedRectangleBorder(borderRadius: borderRadiusSmall),
+            controlAffinity: ListTileControlAffinity.leading,
+            title: const Text('Recordar contraseña'),
+            onChanged: (v) {}
+          ),
+          const SizedBox(height: paddMedium),
+          ButtomCustom(
+            onPressed: submitForm,
+            typeButton: TypeButton.expanded,
+            background: ColorConstants.primary(context),
+            child: Text('Entrar', style: TextStyleConstants.bodyLarge(context, color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('¿No tienes una cuenta? '),
+              InkWell(
+                onTap: widget.onTap,
+                child: Text('¡Regístrate!', style: TextStyleConstants.bodyMedium(context, fontWeight: FontWeight.bold)),
+              )
+            ],
+          ),
+          const Spacer()
         ],
       ),
     );

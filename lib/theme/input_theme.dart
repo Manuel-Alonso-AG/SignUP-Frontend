@@ -14,7 +14,7 @@ class InputCustom {
     labelText: label,
     contentPadding: paddAllMedium,
     suffixIcon: IconButton(
-      icon: isToggle? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+      icon: isToggle? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
       onPressed: onToggle,
     ),
     filled: true,
