@@ -7,6 +7,8 @@ import 'package:frontend/utils/spacing_constants.dart';
 import 'package:frontend/utils/text_constants.dart';
 import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
+import 'package:frontend/widgets/checkbox_widget.dart';
+import 'package:frontend/widgets/password_field_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -25,15 +27,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passConfirmController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey();
-  bool onHidenPassword = true;
+  final GlobalKey<CheckboxWidgetState> _checkboxKey = GlobalKey<CheckboxWidgetState>();
+
   bool onHidenConfirmPassword = true;
   
-  void hidenPassword() => setState(() => onHidenPassword = !onHidenPassword);
   void hidenConfirmPassword() => setState(() => onHidenConfirmPassword = !onHidenConfirmPassword);
   
   void submitForm() {
+    bool isChecked = _checkboxKey.currentState?.isChecked ?? false;
     if (!formKey.currentState!.validate()) return;
-    
     /* TODO: Implementar la lógica para interactuar con el backend */
     
   }
@@ -78,9 +80,9 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (p0) => validatorPhone(p0)
           ),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            decoration: InputCustom.password(context, 'Contraseña', isToggle: onHidenPassword, onToggle: hidenPassword),
-            controller: passController,
+          PasswordField(
+            controller: passController, 
+            labelText: 'Contraseña',
             validator: validatorPass
           ),
           const SizedBox(height: paddMedium),
@@ -90,12 +92,9 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (value) => validatorConfirmPass(value, passController.text)
           ),
           const SizedBox(height: paddMedium),
-          CheckboxListTile(
-            value: false, 
-            checkboxShape: const RoundedRectangleBorder(borderRadius: borderRadiusSmall),
-            controlAffinity: ListTileControlAffinity.leading,
-            title: const Text('Recordar contraseña'),
-            onChanged: (v) {}
+          CheckboxWidget(
+            key: _checkboxKey,
+            titleWidget: const Text('Recordar contraseña')
           ),
           const SizedBox(height: paddMedium),
           ButtomCustom(

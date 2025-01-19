@@ -6,14 +6,19 @@ var textTheme = const TextTheme(
   titleSmall: TextStyle(fontWeight: FontWeight.bold),
 );
 
+// Se retira los bordes a los inputs
 InputDecorationTheme inpDec = const InputDecorationTheme(outlineBorder: BorderSide.none);
 
 ThemeData lightTheme = ThemeData(
   inputDecorationTheme: inpDec,
+  
+  // 'BAHNSCHRIFT' es el nombre la tipografia de este proyecto
   fontFamily: 'BAHNSCHRIFT',
   textTheme: textTheme,
   brightness: Brightness.light,
   useMaterial3: true,
+
+  // TODO: Colores usados para colores claros
   colorScheme: const ColorScheme.light().copyWith(
     primary: const Color(0xFF0FB2BA),
     inversePrimary: const Color(0xFF53916F),
@@ -30,6 +35,8 @@ ThemeData darkTheme = ThemeData(
   textTheme: textTheme,
   brightness: Brightness.dark,
   useMaterial3: true,
+  
+  // TODO: Colores usados para colores obscuros
   colorScheme: const ColorScheme.dark().copyWith(
     primary: const Color(0xFF0FB2BA),
     inversePrimary: const Color(0xFF53916F),
