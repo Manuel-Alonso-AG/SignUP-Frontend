@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/radius_constants.dart';
 
 class CheckboxWidget extends StatefulWidget {
   final Widget? titleWidget;
@@ -22,10 +23,10 @@ class CheckboxWidgetState extends State<CheckboxWidget> {
     return CheckboxListTile(
       title: widget.titleWidget,
       value: _isChecked,
+      checkboxShape: const RoundedRectangleBorder(borderRadius: borderRadiusSmall),
+      controlAffinity: ListTileControlAffinity.leading,
       onChanged: (bool? value) {
-        setState(() {
-          _isChecked = value ?? false;
-        });
+        setState(() => _isChecked = value ?? false);
       },
     );
   }

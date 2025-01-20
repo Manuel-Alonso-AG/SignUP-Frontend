@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/radius_constants.dart';
+import 'package:frontend/utils/spacing_constants.dart';
 
 var textTheme = const TextTheme(
   titleLarge: TextStyle(fontWeight: FontWeight.bold),
@@ -7,7 +9,15 @@ var textTheme = const TextTheme(
 );
 
 // Se retira los bordes a los inputs
-InputDecorationTheme inpDec = const InputDecorationTheme(outlineBorder: BorderSide.none);
+InputDecorationTheme inpDec = const InputDecorationTheme(
+  errorStyle: TextStyle(color: Color(0xB5E5383B)),
+  filled: true,
+  contentPadding: paddAllMedium,
+  border: OutlineInputBorder(
+    borderRadius: borderRadiusMedium, 
+    borderSide: BorderSide.none
+  )
+);
 
 ThemeData lightTheme = ThemeData(
   inputDecorationTheme: inpDec,

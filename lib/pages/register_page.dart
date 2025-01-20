@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/theme/input_theme.dart';
 import 'package:frontend/utils/colors_constants.dart';
-import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
 import 'package:frontend/utils/text_constants.dart';
 import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
 import 'package:frontend/widgets/checkbox_widget.dart';
-import 'package:frontend/widgets/password_field_widget.dart';
+import 'package:frontend/widgets/field_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -20,21 +18,18 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController nameController= TextEditingController();
-  final TextEditingController emailController= TextEditingController();
-  final TextEditingController phoneController= TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController passConfirmController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey();
   final GlobalKey<CheckboxWidgetState> _checkboxKey = GlobalKey<CheckboxWidgetState>();
 
-  bool onHidenConfirmPassword = true;
-  
-  void hidenConfirmPassword() => setState(() => onHidenConfirmPassword = !onHidenConfirmPassword);
-  
   void submitForm() {
     bool isChecked = _checkboxKey.currentState?.isChecked ?? false;
+    print(isChecked);
     if (!formKey.currentState!.validate()) return;
     /* TODO: Implementar la lógica para interactuar con el backend */
     
@@ -59,20 +54,23 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           Text('¡Regístrate!', style: TextStyleConstants.titleLarge(context)),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            decoration: InputCustom.normal(context, 'Usuario'),
+          FieldCustom(
             controller: nameController,
+            labelText: 'Usuario',
             validator: validatorName
           ),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            decoration: InputCustom.normal(context, 'Correo'),
+          FieldCustom(
             controller: emailController,
+            labelText: 'Correo',
             validator: validatorEmail
           ),
           const SizedBox(height: paddMedium),
           IntlPhoneField(
-            decoration: InputCustom.normal(context, 'Número Telefónico'),
+            decoration: InputDecoration(
+              labelText: 'Teléfono',
+              fillColor: Theme.of(context).colorScheme.surface
+            ),
             controller: phoneController,
             initialCountryCode: 'MX',
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -80,16 +78,18 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (p0) => validatorPhone(p0)
           ),
           const SizedBox(height: paddMedium),
-          PasswordField(
+          FieldCustom(
             controller: passController, 
             labelText: 'Contraseña',
-            validator: validatorPass
+            validator: validatorPass,
+            typeField: TypeField.password,
           ),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            decoration: InputCustom.password(context, 'Confirmar Contraseña', isToggle: onHidenConfirmPassword, onToggle: hidenConfirmPassword),
+          FieldCustom(
+            labelText: 'Confirmar Contraseña',
             controller: passConfirmController,
-            validator: (value) => validatorConfirmPass(value, passController.text)
+            validator: (value) => validatorConfirmPass(value, passController.text),
+            typeField: TypeField.password,
           ),
           const SizedBox(height: paddMedium),
           CheckboxWidget(

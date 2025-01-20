@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/theme/input_theme.dart';
 import 'package:frontend/utils/colors_constants.dart';
 import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
 import 'package:frontend/utils/text_constants.dart';
 import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
+import 'package:frontend/widgets/checkbox_widget.dart';
+import 'package:frontend/widgets/field_widget.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onTap;
@@ -20,11 +21,16 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<CheckboxWidgetState> _checkboxKey = GlobalKey<CheckboxWidgetState>();
+
   bool onHidenPassword = true;
 
   void hidenPassword() => setState(() => onHidenPassword = !onHidenPassword);
 
   void submitForm() {
+    bool isChecked = _checkboxKey.currentState?.isChecked ?? false;
+    print(isChecked);
+    
     if (!formKey.currentState!.validate()) return;
     
     /* TODO: Implementar la lógica para interactuar con el backend */
@@ -76,25 +82,22 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            decoration: InputCustom.normal(context, 'Usuario'),
-            controller: nameController,
-            validator: (value) => validatorName(value)
+          FieldCustom(
+            controller: nameController, 
+            labelText: 'Usuario',
+            validator: validatorName,
           ),
           const SizedBox(height: paddMedium),
-          TextFormField(
-            obscureText: onHidenPassword,
-            decoration: InputCustom.password(context, 'Contraseña', onToggle: hidenPassword, isToggle: onHidenPassword),
-            controller: passController,
-            validator: (value) => validatorPass(value)
+          FieldCustom(
+            controller: passController, 
+            labelText: 'Contraseña',
+            validator: validatorPass,
+            typeField: TypeField.password,
           ),
           const SizedBox(height: paddMedium),
-          CheckboxListTile(
-            value: false, 
-            checkboxShape: const RoundedRectangleBorder(borderRadius: borderRadiusSmall),
-            controlAffinity: ListTileControlAffinity.leading,
-            title: const Text('Recordar contraseña'),
-            onChanged: (v) {}
+          CheckboxWidget(
+            key: _checkboxKey,
+            titleWidget: const Text('Recordar contraseña'),
           ),
           const SizedBox(height: paddMedium),
           ButtomCustom(
