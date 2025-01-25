@@ -125,12 +125,18 @@ flutter run
 
 ```Dart
 void submitForm() {
-    if (!formKey.currentState!.validate()) return;
+  if (!formKey.currentState!.validate()) {
+    setState(() => loadingButton = false);
+    return;
+  }
+  
+  setState(() => loadingButton = true);
 
+  bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+  debugPrint('Checkbox is checked: $isChecked');
 
-    /* TODO: Implementar la lógica para interactuar con el backend */
-
-
+  // Implementa la logica para interactuar con el backend
+  // Ejm: AuthService.login(nameController.text, passController.text);
 }
 ```
 
