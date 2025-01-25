@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:frontend/utils/colors_constants.dart';
 import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
@@ -17,109 +19,130 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController nameController= TextEditingController();
+  final GlobalKey<CheckboxWidgetState> checkboxKey = GlobalKey<CheckboxWidgetState>();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey();
-  final GlobalKey<CheckboxWidgetState> _checkboxKey = GlobalKey<CheckboxWidgetState>();
-
-  bool onHidenPassword = true;
-
-  void hidenPassword() => setState(() => onHidenPassword = !onHidenPassword);
+  bool loadingButton = false;
 
   void submitForm() {
-    bool isChecked = _checkboxKey.currentState?.isChecked ?? false;
-    print(isChecked);
+    if (!formKey.currentState!.validate()) {
+      setState(() => loadingButton = false);
+      return;
+    }
     
-    if (!formKey.currentState!.validate()) return;
-    
-    /* TODO: Implementar la lógica para interactuar con el backend */
+    setState(() => loadingButton = true);
 
+    bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+    debugPrint('Checkbox is checked: $isChecked');
+
+    // Implementa la logica para interactuar con el backend
+    // Ejm: AuthService.login(nameController.text, passController.text);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(gradient: GradientCustom.defaultGradient()),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              // TODO: Se agrega el logo o nombre de la aplicaion
-              child: Center(child: Text('Bienvenido', style: TextStyleConstants.displayMedium(context, color: Colors.white, fontWeight: FontWeight.bold)))
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                padding: paddAllLarge,
-                decoration: BoxDecoration(
-                  borderRadius: borderTopRadiusLarge,
-                  color: ColorConstants.background(context),
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(1, 0),
-                      blurRadius: 8,
-                      spreadRadius: 7,
-                      color: Colors.black26
-                    )
-                  ]
-                ),
-                child: formulary(context),
-              ),
-            ),
-          ],
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: GradientCustom.defaultGradient()
+          ),
+          width: double.infinity,
+          height: double.infinity,
         ),
-      ),
+        SafeArea(
+          child: Column(
+            children: [
+              const Expanded(
+                child: Center(
+                  child: Text("Bienvenido")
+                )
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: paddAllLarge,
+                  decoration: BoxDecoration(
+                    color: ColorConstants.background(context),
+                    borderRadius: borderTopRadiusLarge
+                  ),
+                  child: SingleChildScrollView(child: buildForm(context))
+                )
+              )
+            ],
+          )
+        )
+      ],
     );
   }
 
-  Form formulary(BuildContext context) {
+  Form buildForm(BuildContext context) {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text('Inicia Sesión', style: TextStyleConstants.titleLarge(context)),
           const SizedBox(height: paddMedium),
           FieldCustom(
-            controller: nameController, 
+            controller: nameController,
             labelText: 'Usuario',
             validator: validatorName,
           ),
           const SizedBox(height: paddMedium),
           FieldCustom(
-            controller: passController, 
+            controller: passController,
             labelText: 'Contraseña',
             validator: validatorPass,
             typeField: TypeField.password,
           ),
           const SizedBox(height: paddMedium),
           CheckboxWidget(
-            key: _checkboxKey,
+            key: checkboxKey,
             titleWidget: const Text('Recordar contraseña'),
           ),
           const SizedBox(height: paddMedium),
           ButtomCustom(
             onPressed: submitForm,
+            isLoading: loadingButton,
             typeButton: TypeButton.expanded,
             background: ColorConstants.primary(context),
-            child: Text('Entrar', style: TextStyleConstants.bodyLarge(context, color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              'Entrar',
+              style: TextStyleConstants.bodyLarge(
+                context,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          const Spacer(),
+          const SizedBox(height: paddLarge),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('¿No tienes una cuenta? '),
               InkWell(
                 onTap: widget.onTap,
-                child: Text('¡Regístrate!', style: TextStyleConstants.bodyMedium(context, fontWeight: FontWeight.bold)),
-              )
+                child: Text(
+                  '¡Regístrate!',
+                  style: TextStyleConstants.bodyMedium(
+                    context,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
-          const Spacer()
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    passController.dispose();
+    super.dispose();
   }
 }

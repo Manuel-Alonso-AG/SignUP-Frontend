@@ -7,6 +7,7 @@ import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
 import 'package:frontend/widgets/checkbox_widget.dart';
 import 'package:frontend/widgets/field_widget.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -18,21 +19,28 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final GlobalKey<CheckboxWidgetState> checkboxKey = GlobalKey<CheckboxWidgetState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController passConfirmController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey();
-  final GlobalKey<CheckboxWidgetState> _checkboxKey = GlobalKey<CheckboxWidgetState>();
+  bool loadingButton = false;
 
   void submitForm() {
-    bool isChecked = _checkboxKey.currentState?.isChecked ?? false;
-    print(isChecked);
-    if (!formKey.currentState!.validate()) return;
-    /* TODO: Implementar la lógica para interactuar con el backend */
+    if (!formKey.currentState!.validate()) {
+      setState(() => loadingButton = false);
+      return;
+    }
     
+    setState(() => loadingButton = true);
+
+    bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+    debugPrint('Checkbox is checked: $isChecked');
+
+    // Implementa la logica para interactuar con el backend
+    // Ejm: AuthService.login(nameController.text, passController.text);
   }
 
   @override
@@ -73,6 +81,15 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             controller: phoneController,
             initialCountryCode: 'MX',
+            readOnly: true,
+            pickerDialogStyle: PickerDialogStyle(
+              backgroundColor: Theme.of(context).colorScheme.background,
+              searchFieldInputDecoration: InputDecoration(
+                hintText: 'Buscar país',
+                fillColor: Theme.of(context).colorScheme.surface
+              ),
+              padding: const EdgeInsets.all(paddMedium)
+            ),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             languageCode: 'es',
             validator: (p0) => validatorPhone(p0)
@@ -93,12 +110,13 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           const SizedBox(height: paddMedium),
           CheckboxWidget(
-            key: _checkboxKey,
+            key: checkboxKey,
             titleWidget: const Text('Recordar contraseña')
           ),
           const SizedBox(height: paddMedium),
           ButtomCustom(
               onPressed: submitForm,
+              isLoading: loadingButton,
               typeButton: TypeButton.expanded,
               background: ColorConstants.primary(context),
               child: Text('Entrar', style: TextStyleConstants.bodyLarge(context, color: Colors.white, fontWeight: FontWeight.bold)),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const Radius radiusSmall = Radius.circular(8.0);
-const Radius radiusMedium = Radius.circular(18.0);
-const Radius radiusLarge = Radius.circular(24.0);
+const Radius radiusSmall = Radius.circular(10.0);
+const Radius radiusMedium = Radius.circular(25.0);
+const Radius radiusLarge = Radius.circular(40.0);
 
 const BorderRadius borderRadiusSmall = BorderRadius.all(radiusSmall);
 const BorderRadius borderRadiusMedium = BorderRadius.all(radiusMedium);

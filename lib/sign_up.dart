@@ -13,13 +13,23 @@ class _SignUpState extends State<SignUp> {
   bool toggleSing = false;
 
   void togglePages() {
-    setState(() => toggleSing = !toggleSing);
+    setState(() {
+      toggleSing = !toggleSing;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: toggleSing? RegisterPage(onTap: togglePages) : LoginPage(onTap: togglePages)
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: toggleSing 
+            ? RegisterPage(onTap: togglePages) 
+            : LoginPage(onTap: togglePages),
+      ),
     );
   }
 }
