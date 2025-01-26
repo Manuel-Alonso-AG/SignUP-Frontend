@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const double paddSmall = 10.0;
-const double paddMedium = 20.0;
-const double paddLarge = 50.0;
+const double paddSmall = 15.0;
+const double paddMedium = 18.0;
+const double paddLarge = 40.0;
 
 const EdgeInsetsGeometry paddAllLarge = EdgeInsets.all(paddLarge);
 const EdgeInsetsGeometry paddAllMedium = EdgeInsets.all(paddMedium);

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:frontend/utils/colors_constants.dart';
+import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
 import 'package:frontend/utils/text_constants.dart';
 import 'package:frontend/utils/validators.dart';
 import 'package:frontend/widgets/buttom_widget.dart';
 import 'package:frontend/widgets/checkbox_widget.dart';
 import 'package:frontend/widgets/field_widget.dart';
-import 'package:intl_phone_field/country_picker_dialog.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback onTap;
@@ -28,40 +26,76 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
   bool loadingButton = false;
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passController.dispose();
+    passConfirmController.dispose();
+    super.dispose();
+  }
+
   void submitForm() {
-    if (!formKey.currentState!.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
+      setState(() => loadingButton = true);
+      bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+      debugPrint('Checkbox is checked: $isChecked');
+      
+      // Implementa la logica para interactuar con el backend
+      // Ejm: AuthService.login(nameController.text, passController.text);
+      
+    } else {
       setState(() => loadingButton = false);
-      return;
     }
-    
-    setState(() => loadingButton = true);
-
-    bool isChecked = checkboxKey.currentState?.isChecked ?? false;
-    debugPrint('Checkbox is checked: $isChecked');
-
-    // Implementa la logica para interactuar con el backend
-    // Ejm: AuthService.login(nameController.text, passController.text);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: paddAllLarge,
-        child: SingleChildScrollView(
-          child: formulary(context),
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: GradientCustom.defaultGradient()
+          ),
+          width: double.infinity,
+          height: double.infinity,
         ),
-      ),
+        SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '¡Regístrate!', 
+                    style: TextStyleConstants.headlineLarge(context, color: Colors.white)
+                  ),
+                )
+              ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  padding: paddAllLarge,
+                  decoration: BoxDecoration(
+                    color: ColorConstants.background(context),
+                    borderRadius: borderTopRadiusLarge
+                  ),
+                  child: SingleChildScrollView(child: buildForm(context))
+                )
+              )
+            ],
+          )
+        )
+      ],
     );
   }
 
-  Form formulary(BuildContext context) {
+  Form buildForm(BuildContext context) {
     return Form(
       key: formKey,
       child: Column(
         children: [
-          Text('¡Regístrate!', style: TextStyleConstants.titleLarge(context)),
-          const SizedBox(height: paddMedium),
+          const SizedBox(height: paddSmall),
           FieldCustom(
             controller: nameController,
             labelText: 'Usuario',
@@ -74,25 +108,11 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: validatorEmail
           ),
           const SizedBox(height: paddMedium),
-          IntlPhoneField(
-            decoration: InputDecoration(
-              labelText: 'Teléfono',
-              fillColor: Theme.of(context).colorScheme.surface
-            ),
+          FieldCustom(
             controller: phoneController,
-            initialCountryCode: 'MX',
-            readOnly: true,
-            pickerDialogStyle: PickerDialogStyle(
-              backgroundColor: Theme.of(context).colorScheme.background,
-              searchFieldInputDecoration: InputDecoration(
-                hintText: 'Buscar país',
-                fillColor: Theme.of(context).colorScheme.surface
-              ),
-              padding: const EdgeInsets.all(paddMedium)
-            ),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            languageCode: 'es',
-            validator: (p0) => validatorPhone(p0)
+            labelText: 'Teléfono',
+            validator: validatorPhone,
+            typeField: TypeField.phone
           ),
           const SizedBox(height: paddMedium),
           FieldCustom(
@@ -132,6 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
               )
             ],
           ),
+          const SizedBox(height: paddLarge),
         ],
       ),
     );

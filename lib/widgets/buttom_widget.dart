@@ -26,14 +26,14 @@ class ButtomCustom extends StatelessWidget {
       case TypeButton.expanded:
         return ElevatedButton.styleFrom(
           backgroundColor: background,
-          minimumSize: const Size(double.infinity, 18)
+          minimumSize: const Size(double.infinity, 18),
         );
       case TypeButton.circular:
         return ElevatedButton.styleFrom(
           backgroundColor: background,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28)
-          )
+            borderRadius: BorderRadius.circular(28),
+          ),
         );
       default:
         return null;
@@ -43,14 +43,15 @@ class ButtomCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isLoading? null : onPressed,
+      onPressed: isLoading ? null : onPressed,
       style: _styleButton(),
       child: Padding(
-        padding: paddAllMedium,
-        child: isLoading? const CircularProgressIndicator() : child
+        padding: paddAllSmall,
+        child: isLoading ? const CircularProgressIndicator() : child,
       ),
     );
   }
 }
 
-enum TypeButton {normal, expanded, circular}
+// Enum to define the type of button
+enum TypeButton { normal, expanded, circular }

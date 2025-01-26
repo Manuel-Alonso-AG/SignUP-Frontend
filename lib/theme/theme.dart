@@ -12,7 +12,7 @@ var textTheme = const TextTheme(
 InputDecorationTheme inpDec = const InputDecorationTheme(
   errorStyle: TextStyle(color: Color(0xB5E5383B)),
   filled: true,
-  contentPadding: paddAllMedium,
+  contentPadding: paddAllSmall,
   border: OutlineInputBorder(
     borderRadius: borderRadiusMedium, 
     borderSide: BorderSide.none

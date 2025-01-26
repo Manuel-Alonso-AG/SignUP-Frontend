@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TextStyleConstants {
+  static TextStyle? headlineLarge(BuildContext context, {Color? color, FontWeight? fontWeight}) => 
+    Theme.of(context).textTheme.headlineLarge?.copyWith(color: color, fontWeight: fontWeight);
+  static TextStyle? headlineMedium(BuildContext context, {Color? color, FontWeight? fontWeight}) => 
+    Theme.of(context).textTheme.headlineMedium?.copyWith(color: color, fontWeight: fontWeight);
+  static TextStyle? headlineSmall(BuildContext context, {Color? color, FontWeight? fontWeight}) => 
+    Theme.of(context).textTheme.headlineSmall?.copyWith(color: color, fontWeight: fontWeight);
+    
   static TextStyle? displayLarge(BuildContext context, {Color? color, FontWeight? fontWeight}) => 
     Theme.of(context).textTheme.displayLarge?.copyWith(color: color, fontWeight: fontWeight);
   static TextStyle? displayMedium(BuildContext context, {Color? color, FontWeight? fontWeight}) => 

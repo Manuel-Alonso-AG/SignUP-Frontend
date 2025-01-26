@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class FieldCustom extends StatefulWidget {
   final TextEditingController controller;
@@ -11,7 +12,7 @@ class FieldCustom extends StatefulWidget {
     required this.controller, 
     required this.labelText, 
     this.validator,
-    this.typeField = TypeField.text
+    this.typeField = TypeField.editText
   });
 
   @override
@@ -27,34 +28,49 @@ class _FieldCustomState extends State<FieldCustom> {
     });
   }
 
+  InputDecoration _buildInputDecoration() {
+    return InputDecoration(
+      labelText: widget.labelText,
+      fillColor: Theme.of(context).colorScheme.surface,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    switch (widget.typeField) {
-      case TypeField.password:
-        return TextFormField(
-          controller: widget.controller,
-          obscureText: _obscureText,
-          decoration: InputDecoration(
-            labelText: widget.labelText,
-            fillColor: Theme.of(context).colorScheme.surface,
-            suffixIcon: IconButton(
-              icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-              onPressed: _togglePasswordVisibility,
+    return widget.typeField == TypeField.phone
+        ? InternationalPhoneNumberInput(
+            onInputChanged: (value) {},
+            formatInput: false,
+            textFieldController: widget.controller,
+            maxLength: 10,
+            initialValue: PhoneNumber(isoCode: 'MX'),
+            searchBoxDecoration: InputDecoration(
+              hintText: 'Buscar país',
+              fillColor: Theme.of(context).colorScheme.surface,
             ),
-          ),
-          validator: widget.validator,
-        );
-      default:
-        return TextFormField(
-          controller: widget.controller,
-          decoration: InputDecoration(
-            labelText: widget.labelText,
-            fillColor: Theme.of(context).colorScheme.surface
-          ),
-          validator: widget.validator
-        );
-    }
+            selectorConfig: const SelectorConfig(
+              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+              useEmoji: true,
+              useBottomSheetSafeArea: true,
+            ),
+            inputDecoration: _buildInputDecoration(),
+            validator: widget.validator,
+          )
+        : TextFormField(
+            enabled: widget.typeField != TypeField.onlyText,
+            controller: widget.controller,
+            obscureText: widget.typeField == TypeField.password ? _obscureText : false,
+            decoration: _buildInputDecoration().copyWith(
+              suffixIcon: widget.typeField == TypeField.password
+                  ? IconButton(
+                      icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                      onPressed: _togglePasswordVisibility,
+                    )
+                  : null,
+            ),
+            validator: widget.validator,
+          );
   }
 }
 
-enum TypeField {text, password}
+enum TypeField { editText, onlyText, password, phone }

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/utils/colors_constants.dart';
 import 'package:frontend/utils/radius_constants.dart';
 import 'package:frontend/utils/spacing_constants.dart';
@@ -25,19 +23,25 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
   bool loadingButton = false;
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
+
   void submitForm() {
-    if (!formKey.currentState!.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
+      setState(() => loadingButton = true);
+      bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+      debugPrint('Checkbox is checked: $isChecked');
+      
+      // Implementa la logica para interactuar con el backend
+      // Ejm: AuthService.login(nameController.text, passController.text);
+      
+    } else {
       setState(() => loadingButton = false);
-      return;
     }
-    
-    setState(() => loadingButton = true);
-
-    bool isChecked = checkboxKey.currentState?.isChecked ?? false;
-    debugPrint('Checkbox is checked: $isChecked');
-
-    // Implementa la logica para interactuar con el backend
-    // Ejm: AuthService.login(nameController.text, passController.text);
   }
 
   @override
@@ -54,9 +58,12 @@ class _LoginPageState extends State<LoginPage> {
         SafeArea(
           child: Column(
             children: [
-              const Expanded(
+              Expanded(
                 child: Center(
-                  child: Text("Bienvenido")
+                  child: Text(
+                    'Bienvenido', 
+                    style: TextStyleConstants.headlineLarge(context, color: Colors.white)
+                  )
                 )
               ),
               Expanded(
@@ -102,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
             key: checkboxKey,
             titleWidget: const Text('Recordar contraseña'),
           ),
-          const SizedBox(height: paddMedium),
+          const SizedBox(height: paddLarge),
           ButtomCustom(
             onPressed: submitForm,
             isLoading: loadingButton,
@@ -137,12 +144,5 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    passController.dispose();
-    super.dispose();
   }
 }

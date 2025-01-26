@@ -10,17 +10,17 @@ Una interfaz intuitiva y moderna para registro de usuarios, desarrollada con Flu
 
 ## Características
 
-
+- Uso de campos de entrada tal como:
+  * Nombre de usuario
+  * Correo
+  * Telefono
+  * Contaseña
 - Validación para los campos de entrada:
-  - Email: Formato válido de correo electrónico.
-  - Contraseña: Reglas personalizables (mínimo de caracteres, símbolos, etc.).
+  * Email: Formato válido de correo electrónico.
+  * Contraseña: Reglas personalizables (mínimo de caracteres, símbolos, etc.).
 - Tema claro y oscuro.
 - Flujo separado para login y registro.
 - Fácil integración con APIs.
-
-
->[!IMPORTANT]
->¡Todavía está en desarrollo! NO está terminado
 
 
 ## Instalación  
@@ -49,14 +49,13 @@ flutter run
 
 
 ## Capturas de pantalla
->[!NOTE]
->Desactualizado
+
 
 | <center>Pantalla de Acceso</center>  | <center>Pantalla de Registro</center> |
 |---------------------|----------------------|
-| ![Acceso](assets/login.png) | ![Registro](assets/register.png) |
-| <center>Datos invalidos</center> | <center>Datos inválidos</center> |
-| ![AccesoD](assets/loginD.png) | ![RegistroD](assets/registerD.png) |
+| ![Acceso](assets/loginA.png) | ![Registro](assets/registerA.png) |
+| <center>Modo oscuro</center> | <center>Modo oscuro</center> |
+| ![AccesoD](assets/loginB.png) | ![RegistroD](assets/registerB.png) |
 
 
 ## Cambiar apariencia
@@ -93,19 +92,6 @@ flutter run
   ```
 
 
-  * **input_theme.dart** Decoración de los inputs
- 
-  ``` Dart
-  class InputCustom {
-    static InputDecoration normal(BuildContext context, String? label) => InputDecoration(
-      labelText: label,
-      // ... //
-    );
-    // ... //
-  }
-  ```
-
-
 ### 2. Valores de los elementos
 - Cada elemento o componente tiene valores para el padding o margin, borde, estilo de texto, etc...<br> Si deseas cambiar estos valores, puedes acceder a ellos en la carpeta *lib/utils/* con los archivos con terminación xx_constants.dart:
   * colors_constants.dart
@@ -125,18 +111,17 @@ flutter run
 
 ```Dart
 void submitForm() {
-  if (!formKey.currentState!.validate()) {
+  if (formKey.currentState?.validate() ?? false) {
+    setState(() => loadingButton = true);
+    bool isChecked = checkboxKey.currentState?.isChecked ?? false;
+    debugPrint('Checkbox is checked: $isChecked');
+    
+    // Implementa la logica para interactuar con el backend
+    // Ejm: AuthService.login(nameController.text, passController.text);
+    
+  } else {
     setState(() => loadingButton = false);
-    return;
   }
-  
-  setState(() => loadingButton = true);
-
-  bool isChecked = checkboxKey.currentState?.isChecked ?? false;
-  debugPrint('Checkbox is checked: $isChecked');
-
-  // Implementa la logica para interactuar con el backend
-  // Ejm: AuthService.login(nameController.text, passController.text);
 }
 ```
 
